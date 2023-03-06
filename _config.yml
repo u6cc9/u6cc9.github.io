@@ -18,6 +18,6 @@ shortcodes:
 
 # 文档依赖
 unpkg:
-  primer: https://unpkg.com/@primer/css@20.8.2/dist/primer.css
+  primer: https://unpkg.com/@primer/css@20.8.3/dist/primer.css
   jquery: https://unpkg.com/jquery@3.6.3/dist/jquery.min.js
-  mermaid: https://unpkg.com/mermaid@9.4.0/dist/mermaid.esm.min.mjs
+  mermaid: https://unpkg.com/mermaid@10.0.2/dist/mermaid.esm.min.mjs
