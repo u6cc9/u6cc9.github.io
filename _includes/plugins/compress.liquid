@@ -1,0 +1,5 @@
+{%- if site.compress -%}
+    {{- include.content | normalize_whitespace | split: "> <" | join: "><" -}}
+{%- else -%}
+    {{- include.content -}}
+{%- endif -%}

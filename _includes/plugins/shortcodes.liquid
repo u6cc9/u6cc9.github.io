@@ -1,0 +1,12 @@
+{%- if pres.first contains '><code class="language-' -%}
+    {%- assign temp = pres.first | replace_first: '><code class="language-', "" | replace_first: '">', "<temp/>" | split: "<temp/>" -%}
+    {%- assign lang = temp.first -%}
+    {%- assign code = temp.last | split: "</code>" | first -%}
+    {%- if site.shortcodes contains lang -%}
+        {%- include shortcodes/{{ lang }}.html -%}
+    {%- else -%}
+        <pre{{ pres.first }}</pre>
+    {%- endif -%}
+{%- else -%}
+    <pre{{ pres.first }}</pre>
+{%- endif -%}

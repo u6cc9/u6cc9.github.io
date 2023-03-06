@@ -1,0 +1,22 @@
+<!-- 锚点模板 -->
+<template id="tp-anchor">
+    <a id="go-{header}" class="anchor" href="#{header}">
+        {%- octicon link height:16 -%}
+    </a>
+</template>
+
+<script>
+    $(document).ready(function () {
+        /* 1.设置锚点 */
+        $(".markdown-body").children("h1,h2,h3,h4,h5,h6").each(function () {
+            $(this).prepend($.template("#tp-anchor", { header: this.id }))
+        });
+
+        /* 2.定位锚点 */
+        try {
+            $(decodeURI(location.hash).replace(/^#/, "#go-"))[0].scrollIntoView();
+        } catch (e) {
+            history.replaceState(null, "", location.pathname + location.search);
+        }
+    });
+</script>

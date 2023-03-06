@@ -1,0 +1,130 @@
+{% assign github_path = site.github.source.branch | append: site.github.source.path | append: page.path %}
+
+<!-- 搜索弹窗 -->
+<details id="search-box" class="details-reset details-overlay details-overlay-dark">
+    <summary></summary>
+    <div class="Box search anim-fade-in fast">
+        <div class="Box-row border-bottom">
+            <div class="form-group">
+                <div class="form-group-body">
+                    <input id="regexp" class="form-control input-block" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="数据加载中..." />
+                </div>
+            </div>
+        </div>
+        <div id="result" class="result overflow-auto wb-break-all"></div>
+    </div>
+</details>
+
+<!-- 搜索结果 -->
+<template id="tp-result">
+    <a href="{url}" class="Box-row Box-row-link Box-row--hover-gray d-flex flex-items-center">
+        <div class="flex-auto">
+            <div class="text-bold">
+                {title}
+            </div>
+            <div class="text-small text-mono">{content}</div>
+        </div>
+        {icon}
+    </a>
+</template>
+
+<template id="tp-result-pages">
+    {%- octicon link height:16 -%}
+</template>
+
+<template id="tp-result-cmds">
+    {%- octicon mark-github height:16 -%}
+</template>
+
+<template id="tp-result-highlight">
+    {{--}}<span class="color-bg-open-emphasis">{match}</span>{{--}}
+</template>
+
+<script>
+    $(document).ready(function () {
+        let runtime = {
+            pages: [],
+            cmds: [{
+                content: "回顾《{{ page.title }}》历史详细修改内容",
+                title: "blame",
+                url: "{{ site.github.repository_url }}/blame/{{ github_path }}"
+            }, {
+                content: "查看版本 {{ site.github.build_revision | slice: 0, 7 }} 具体的修改内容",
+                title: "commit",
+                url: "{{ site.github.repository_url }}/commit/{{ site.github.build_revision }}"
+            }, {
+                content: "在 GitHub 上在线编辑《{{ page.title }}》",
+                title: "edit",
+                url: "{{ site.github.repository_url }}/edit/{{ github_path }}"
+            }, {
+                content: "在 Visual Studio Code 上在线编辑《{{ page.title }}》",
+                title: "vscode",
+                url: "https://github.dev/{{ site.github.repository_nwo }}/blob/{{ github_path }}"
+            }]
+        };
+
+        /* 高亮返回概览关键词  */
+        function highlight(strings, regexp) {
+            let summary = strings.match(new RegExp(`.{0,15}${regexp.source}.{0,15}`, "gims"));
+            if (summary) {
+                strings = summary.join(`<span class="color-fg-closed"> ↝ </span>`);
+            }
+            return strings
+                .replace(regexp, function (match) {
+                    return $.template("#tp-result-highlight", { match });
+                })
+                .replace(/(\r\n|\n|\r)/g, `<span class="color-fg-muted">↵</span>`);
+        }
+
+        function search(regexp) {
+            let data = $.extend(true, {}, runtime);
+            let result = [];
+            for (let type in data) {
+                for (let item of data[type]) {
+                    if (regexp.test(item.title) || regexp.test(item.content)) {
+                        result.push($.template("#tp-result", {
+                            title: highlight(item.title, regexp),
+                            icon: $("#tp-result-" + type).html(),
+                            url: item.url,
+                            content: highlight(item.content, regexp),
+                        }));
+                    }
+                }
+            }
+            return result.join("");
+        }
+
+        /* 切换搜索弹窗状态 */
+        $(document).on("keydown", function (e) {
+            if (e.originalEvent.key == "Escape") {
+                $("#search-box")[0].toggleAttribute("open");
+            }
+        });
+
+        /* 监听搜索弹窗切换状态, 然后初始化搜索 */
+        $("#search-box").on("toggle", function () {
+            if (this.hasAttribute("open")) {
+                $.ajax("{{ site.baseurl }}/pages.json?v={{ site.github.build_revision | slice: 0, 7 }}")
+                    .done(function (pages) {
+                        runtime.pages = pages;
+                        $("#regexp").focus();
+                        $("#regexp").attr("placeholder", "请键入正则表达式以检索...");
+                    })
+                    .fail(function () {
+                        $("#regexp").attr("placeholder", "数据加载失败!");
+                    });
+            }
+        });
+
+        /* 始终监听搜索输入框状态 */
+        $("#regexp").bind("input propertychange change", function () {
+            let result = "";
+            if (this.value != "") {
+                try {
+                    result = search(new RegExp(this.value, "gims"));
+                } catch (e) { }
+            }
+            $("#result").html(result);
+        });
+    });
+</script>

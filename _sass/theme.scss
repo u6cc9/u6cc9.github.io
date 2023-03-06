@@ -1,0 +1,53 @@
+// rougify style monokai | sass-convert --to scss > _sass/rouge.scss
+@import "rouge";
+
+html {
+    scroll-behavior: smooth;
+}
+
+.search {
+    position: fixed;
+    margin: 10vh auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    max-height: 80vh;
+    max-width: 90vw;
+    width: 50vw;
+    overflow: hidden;
+
+    .result {
+        max-height: 60vh;
+    }
+}
+
+.markdown-body {
+    pre {
+        border: 1px solid var(--color-border-default);
+    }
+
+    .highlight {
+        border-radius: 6px;
+
+        pre {
+            border: none;
+            background-color: transparent;
+        }
+    }
+
+    .mermaid {
+        animation: pulse 1s infinite;
+
+        &[data-processed=true] {
+            animation: none;
+            text-align: center;
+        }
+    }
+
+    &>*:last-child {
+        .highlight {
+            margin-bottom: 0;
+        }
+    }
+}

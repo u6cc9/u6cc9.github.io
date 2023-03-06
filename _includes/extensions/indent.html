@@ -1,0 +1,10 @@
+<!-- 段落缩进 -->
+<script>
+    $(document).ready(function () {
+        $(".markdown-body").children("p").each(function () {
+            if ($(this).html().length > 100) {
+                $(this).css("textIndent", "2rem");
+            }
+        });
+    });
+</script>

@@ -1,0 +1,15 @@
+{%- assign htmls = content | split: "<pre" -%}
+
+{%- for html in htmls -%}
+    {%- if html contains "</pre>" -%}
+        {%- assign pres = html | split: "</pre>" -%}
+        {%- if site.shortcodes -%}
+            {%- include plugins/shortcodes.liquid -%}
+        {%- else -%}
+            <pre{{ pres.first }}</pre>
+        {%- endif -%}
+        {%- include plugins/compress.liquid content=pres.last -%}
+    {%- else -%}
+        {%- include plugins/compress.liquid content=html -%}
+    {%- endif -%}
+{%- endfor -%}
