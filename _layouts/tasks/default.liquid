@@ -1,0 +1,49 @@
+---
+layout: tasks/plugins
+---
+
+{%- assign description = layout.description | default: content -%}
+{%- capture scss -%}
+    {%- for style in layout.styles -%}
+        @import "{{ style }}";
+    {%- endfor -%}
+{%- endcapture -%}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }} - {{ site.github.build_revision | slice: 0, 7 }}</title>
+    <meta name="description" content="{{ description | strip_html | normalize_whitespace | smartify | truncate: 150 }}">
+    <meta name="theme-color" content="white">
+    <meta name="revision" content="{{ site.github.build_revision }}">
+    <meta name="generator" content="github-pages v{{ site.github.versions.github-pages }}">
+    {%- for meta in site.meta -%}
+        <meta name="{{ meta.first }}" content="{{ meta.last }}">
+    {%- endfor -%}
+    <link rel="stylesheet" href="{{ site.dependencies.primer }}">
+    <style>
+        {{- scss | scssify -}}
+    </style>
+</head>
+
+<body class="container-xl">
+    <main class="m-sm-3 m-md-4 m-lg-5">
+        {{- content -}}
+    </main>
+    <script src="{{ site.dependencies.jquery }}"></script>
+    <script>
+        $.extend({
+            template: function (selector, data) {
+                return $(selector).html().replace(/{([a-zA-Z]+)}/mg, (m, v) => data[v]);
+            }
+        });
+    </script>
+    {%- for extension in layout.extensions -%}
+        {%- include extensions/{{ extension }}.html -%}
+    {%- endfor -%}
+</body>
+
+</html>

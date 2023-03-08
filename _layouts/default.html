@@ -1,43 +1,18 @@
 ---
-layout: plugins
+layout: tasks/default
+
+styles:
+  - normalize
+  - search
+  - markdown
+
+extensions:
+  - search
+  - anchor
+  - indent
+  - mermaid
 ---
 
-<!DOCTYPE html>
-<html lang="zh-CN">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ page.title }} - {{ site.github.build_revision | slice: 0, 7 }}</title>
-    <meta name="description" content="{{ content | strip_html | normalize_whitespace | smartify | truncate: 150 }}">
-    <meta name="theme-color" content="white">
-    <meta name="revision" content="{{ site.github.build_revision }}">
-    <meta name="generator" content="github-pages v{{ site.github.versions.github-pages }}">
-    {%- for meta in site.meta %}
-    <meta name="{{ meta.first }}" content="{{ meta.last }}">
-    {%- endfor %}
-    <link rel="stylesheet" href="{{ site.dependencies.primer }}">
-    {%- include style.liquid -%}
-</head>
-
-<body class="container-xl">
-    <main class="m-sm-3 m-md-4 m-lg-5">
-        <article class="markdown-body p-5">
-            {{ content | replace: "highlighter-rouge", "highlighter-rouge notranslate" }}
-        </article>
-    </main>
-    <script src="{{ site.dependencies.jquery }}"></script>
-    <script>
-        $.extend({
-            template: function (selector, data) {
-                return $(selector).html().replace(/{([a-zA-Z]+)}/mg, (m, v) => data[v]);
-            }
-        });
-    </script>
-    {%- include extensions/anchor.html -%}
-    {%- include extensions/indent.html -%}
-    {%- include extensions/search.html -%}
-    {%- include extensions/mermaid.html -%}
-</body>
-
-</html>
+<article class="markdown-body p-5">
+    {{- content | replace: "highlighter-rouge", "highlighter-rouge notranslate" -}}
+</article>

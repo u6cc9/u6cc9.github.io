@@ -1,26 +1,5 @@
-// rougify style monokai | sass-convert --to scss > _sass/rouge.scss
-@import "rouge";
-
-html {
-    scroll-behavior: smooth;
-}
-
-.search {
-    position: fixed;
-    margin: 10vh auto;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 999;
-    max-height: 80vh;
-    max-width: 90vw;
-    width: 50vw;
-    overflow: hidden;
-
-    .result {
-        max-height: 60vh;
-    }
-}
+// rougify style monokai | sass-convert --to scss > _sass/rouge/monokai.scss
+@import "rouge/monokai";
 
 .markdown-body {
     pre {
