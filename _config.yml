@@ -1,4 +1,4 @@
-# 自带图标: https://primer.style/design/foundations/icons
+# 默认图标: https://primer.style/design/foundations/icons
 plugins:
   - jekyll-octicons
 
@@ -17,7 +17,7 @@ shortcodes:
   - danger
 
 # 文档依赖
-unpkg:
+dependencies:
   primer: https://unpkg.com/@primer/css@20.8.3/dist/primer.css
   jquery: https://unpkg.com/jquery@3.6.3/dist/jquery.min.js
   mermaid: https://unpkg.com/mermaid@10.0.2/dist/mermaid.esm.min.mjs

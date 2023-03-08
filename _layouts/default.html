@@ -16,7 +16,7 @@ layout: plugins
     {%- for meta in site.meta %}
     <meta name="{{ meta.first }}" content="{{ meta.last }}">
     {%- endfor %}
-    <link rel="stylesheet" href="{{ site.unpkg.primer }}">
+    <link rel="stylesheet" href="{{ site.dependencies.primer }}">
     {%- include style.liquid -%}
 </head>
 
@@ -26,7 +26,7 @@ layout: plugins
             {{ content | replace: "highlighter-rouge", "highlighter-rouge notranslate" }}
         </article>
     </main>
-    <script src="{{ site.unpkg.jquery }}"></script>
+    <script src="{{ site.dependencies.jquery }}"></script>
     <script>
         $.extend({
             template: function (selector, data) {

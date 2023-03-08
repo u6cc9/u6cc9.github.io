@@ -1,7 +1,7 @@
 {%- if content contains "language-mermaid" %}
 <!-- 图表扩展 -->
 <script type="module">
-    import mermaid from "{{ site.unpkg.mermaid }}";
+    import mermaid from "{{ site.dependencies.mermaid }}";
     mermaid.initialize({
         startOnLoad: true,
         theme: "forest",
