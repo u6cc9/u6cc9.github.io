@@ -1,0 +1,8 @@
+.mermaid {
+    animation: pulse 1s infinite;
+
+    &[data-processed=true] {
+        animation: none;
+        text-align: center;
+    }
+}

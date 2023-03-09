@@ -2,7 +2,7 @@
 layout: tasks/plugins
 ---
 
-{%- assign description = layout.description | default: content -%}
+{%- assign summary = layout.summary | default: page.content | markdownify -%}
 {%- capture scss -%}
     {%- for style in layout.styles -%}
         @import "{{ style }}";
@@ -16,7 +16,7 @@ layout: tasks/plugins
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ page.title }} - {{ site.github.build_revision | slice: 0, 7 }}</title>
-    <meta name="description" content="{{ description | strip_html | normalize_whitespace | smartify | truncate: 150 }}">
+    <meta name="description" content="{{ summary | strip_html | normalize_whitespace | smartify | truncate: 150 }}">
     <meta name="theme-color" content="white">
     <meta name="revision" content="{{ site.github.build_revision }}">
     <meta name="generator" content="github-pages v{{ site.github.versions.github-pages }}">

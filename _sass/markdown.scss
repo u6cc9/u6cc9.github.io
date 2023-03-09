@@ -17,15 +17,6 @@
         }
     }
 
-    .mermaid {
-        animation: pulse 1s infinite;
-
-        &[data-processed=true] {
-            animation: none;
-            text-align: center;
-        }
-    }
-
     &>*:last-child {
         .highlight {
             margin-bottom: 0;
